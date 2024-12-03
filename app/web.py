@@ -41,7 +41,8 @@ def run(workers: int):
     """Run uvicorn processes running app.asgi:app"""
     import sys
     procs = [
-        Runner(f"app{i}", [sys.executable, '-m', "uvicorn", "--uds", f"app{i}.sock", "app.asgi:app"])
+        Runner(f"app{i}", [sys.executable, '-m', "uvicorn", "--uds", f"app{i}.sock", "app.asgi:app"],
+            env=dict(ENDPOINT= f"app{i}.sock"))
         for i in range(1, workers + 1)
     ]
 
@@ -52,6 +53,8 @@ def run(workers: int):
             t.wait()
 
     except KeyboardInterrupt:
+        for t in todo:
+            t.wait(.5)
         return
 
 

@@ -11,11 +11,11 @@ nginx -c $(realpath .)/sticky.conf
 Now run multiple background shiny apps:
 
 ```bash
-# starts 4 uvicorn processes holding one app.asgi:app each
+# starts 4 uvicorn processes holding one app.asgi:app shiny app each
 python -m app.web
 ```
 
-You can fire up multiple browser tabs to hit this website with:
+You can fire up multiple browser tabs to hit this website concurrently with:
 
 ```bash
 # fire up 10 browser tabs
