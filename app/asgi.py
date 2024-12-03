@@ -1,6 +1,8 @@
-from shiny import *
+from shiny import ui, Inputs, Outputs, Session, render, App
 import starlette.responses
 from .sticky import init_shiny
+
+# https://github.com/posit-dev/py-shiny/blob/7ba8f90a44ee25f41aa8c258eceeba6807e0017a/examples/load_balance/app.py
 
 app_ui = ui.page_fluid(
     ui.markdown(

@@ -38,8 +38,10 @@ class Runner:
 @click.command()
 @click.option("-w", "--workers", default=4)
 def run(workers: int):
+    """Run uvicorn processes running app.asgi:app"""
+    import sys
     procs = [
-        Runner(f"app{i}", ["uvicorn", "--uds", f"app{i}.sock", "app.asgi:app"])
+        Runner(f"app{i}", [sys.executable, '-m', "uvicorn", "--uds", f"app{i}.sock", "app.asgi:app"])
         for i in range(1, workers + 1)
     ]
 
