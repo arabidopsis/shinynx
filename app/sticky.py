@@ -4,8 +4,8 @@ from starlette.middleware import Middleware
 from starlette.middleware.base import BaseHTTPMiddleware
 
 
-class CustomHeaderMiddleware(BaseHTTPMiddleware):
-    def __init__(self, app, value, key='sticky'):
+class StickyCookie(BaseHTTPMiddleware):
+    def __init__(self, app:App, value:str, key:str='sticky'):
         super().__init__(app)
         self.value = value
         self.key = key
@@ -24,5 +24,5 @@ def init_shiny(app:App) -> None:
     # see hash $cookie_sticky consistent; 
     # in sticky.conf
     app.starlette_app.user_middleware.append(
-        Middleware(CustomHeaderMiddleware, value=server_name, key="sticky")
+        Middleware(StickyCookie, value=server_name, key="sticky")
     )
