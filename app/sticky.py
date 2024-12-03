@@ -1,4 +1,5 @@
 import random
+from shiny import App
 from starlette.middleware import Middleware
 from starlette.middleware.base import BaseHTTPMiddleware
 
@@ -18,7 +19,8 @@ class CustomHeaderMiddleware(BaseHTTPMiddleware):
 server_name = f"st-{random.random()}"
 
 
-def init_shiny(app):
+def init_shiny(app:App) -> None:
+    """Ensure app sends out a "sticky" cookie so it can be identified by nginx"""
     app.starlette_app.user_middleware.append(
         Middleware(CustomHeaderMiddleware, value=server_name, key="sticky")
     )

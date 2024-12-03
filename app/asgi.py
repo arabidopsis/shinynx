@@ -60,17 +60,21 @@ def server(input: Inputs, output: Outputs, session: Session):
                     const resp = await fetch(url);
                     if (!resp.ok) {{
                         status_el.innerHTML = "Failure!";
+                        status_el.style.color = 'red';
                         return;
                     }} else {{
                         status_el.innerHTML = "In progress";
                     }}
                 }} catch(e) {{
                     status_el.innerHTML = "Failure!";
+                    status_el.style.color = 'red';
                     return;
                 }}
 
                 if (count === 100) {{
                     status_el.innerHTML = "Test complete";
+                    status_el.style.color = 'green';
+
                     return;
                 }}
 
