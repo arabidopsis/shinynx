@@ -1,12 +1,11 @@
 from shiny import ui, Inputs, Outputs, Session, render, App
 import starlette.responses
-from .sticky import init_shiny
-
+from .sticky import init_shiny, INSTANCE_COOKIE
 # https://github.com/posit-dev/py-shiny/blob/7ba8f90a44ee25f41aa8c258eceeba6807e0017a/examples/load_balance/app.py
 
 app_ui = ui.page_fluid(
     ui.markdown(
-        """
+        f"""
         ## Sticky load balancing test
 
         The purpose of this app is to determine if HTTP requests made by the client are
@@ -17,6 +16,8 @@ app_ui = ui.page_fluid(
         If this test fails, it means that sticky load balancing is not working, and
         certain Shiny functionality (like file upload/download or server-side selectize)
         are likely to randomly fail.
+
+        We are targetting the shiny instance with "sticky" cookie value: <code>{INSTANCE_COOKIE}</code>
         """
     ),
     ui.tags.div(

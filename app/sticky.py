@@ -16,13 +16,14 @@ class StickyCookie(BaseHTTPMiddleware):
         return response
 
 
-server_name = f"st-{random.random()}"
+INSTANCE_COOKIE = f"st-{random.random()}"
 
 
-def init_shiny(app:App) -> None:
+def init_shiny(app:App) -> App:
     """Ensure app sends out a "sticky" cookie so it can be identified by nginx"""
     # see hash $cookie_sticky consistent; 
     # in sticky.conf
     app.starlette_app.user_middleware.append(
-        Middleware(StickyCookie, value=server_name, key="sticky")
+        Middleware(StickyCookie, value=INSTANCE_COOKIE, key="sticky")
     )
+    return app
