@@ -19,7 +19,7 @@ class StickyCookie(BaseHTTPMiddleware):
 INSTANCE_COOKIE = f"st-{random.random()}"
 
 
-def init_shiny(app:App) -> App:
+def init_sticky(app:App) -> App:
     """Ensure app sends out a "sticky" cookie so it can be identified by nginx"""
     # see hash $cookie_sticky consistent; 
     # in sticky.conf

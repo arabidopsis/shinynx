@@ -1,6 +1,7 @@
 from shiny import ui, Inputs, Outputs, Session, render, App
-import starlette.responses
-from .sticky import init_shiny, INSTANCE_COOKIE
+from starlette.responses import PlainTextResponse
+from .sticky import init_sticky, INSTANCE_COOKIE
+
 # https://github.com/posit-dev/py-shiny/blob/7ba8f90a44ee25f41aa8c258eceeba6807e0017a/examples/load_balance/app.py
 
 app_ui = ui.page_fluid(
@@ -41,7 +42,7 @@ def server(input: Inputs, output: Outputs, session: Session):
         # will care about.
         url = session.dynamic_route(
             "test",
-            lambda req: starlette.responses.PlainTextResponse(
+            lambda req: PlainTextResponse(
                 "OK", headers={"Cache-Control": "no-cache"}
             ),
         )
@@ -88,4 +89,4 @@ def server(input: Inputs, output: Outputs, session: Session):
 app = App(app_ui, server)
 
 
-init_shiny(app)
+init_sticky(app)

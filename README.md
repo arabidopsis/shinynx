@@ -28,7 +28,7 @@ You will see `app{n}.sock` files appear in this directory. These are the endpoin
 of 4 shiny instances.
 
 Shiny requires a "stickyness" i.e. it must always communicate with the *same* background
-shiny instance.
+shiny instance. So the file `sticky.py` is the crucial enhancment required.
 
 You can fire up multiple browser tabs to hit this website concurrently with:
 
