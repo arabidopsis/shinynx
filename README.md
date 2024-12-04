@@ -45,3 +45,7 @@ see [the shiny docs](https://shiny.posit.co/py/docs/deploy-on-prem.html#other-ho
 
 Since the cookie values are randomly generated, a restart of the backend without a restart of nginx
 will envolve failures since cookie values have changed.
+
+Currently we set our cookie *value* to the uvicorn endpoint value (e.g. `app1.sock` or `app2.sock` etc.).
+**But** there is no guarantee that nginx will map a cookie value of `app1.sock` to the 
+app1.sock process (it's a hash after all!).

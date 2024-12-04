@@ -21,13 +21,13 @@ class Runner:
     def getenv(self) -> dict[str, str] | None:
         if not self.env:
             return None
-        return {**os.environ, **self.env}
+        return self.env # return {**os.environ, **self.env}
 
     def start(self) -> subprocess.Popen[bytes]:
         if self.showcmd:
             click.secho(" ".join(str(s) for s in self.cmd), fg="blue")
 
-        return subprocess.Popen(  # type: ignore
+        return subprocess.Popen(
             self.cmd,
             cwd=self.directory,
             env=self.getenv(),

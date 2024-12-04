@@ -27,6 +27,7 @@ app_ui = ui.page_fluid(
             {"class": "card-body font-monospace"},
             ui.tags.div("Attempts: ", ui.tags.span("0", id="count")),
             ui.tags.div("Status: ", ui.tags.span(id="status")),
+            ui.tags.div("Backend: ", ui.tags.span(id="source")),
             ui.output_ui("out"),
         ),
     ),
@@ -55,6 +56,9 @@ def server(input: Inputs, output: Outputs, session: Session):
             const url = "{url}";
             const count_el = document.getElementById("count");
             const status_el = document.getElementById("status");
+            const source_el = document.getElementById("source");
+
+            source_el.textContent = document.cookie;
             let count = 0;
             async function check_url() {{
                 count_el.innerHTML = ++count;
