@@ -37,11 +37,13 @@ class Runner:
 
 @click.command()
 @click.option("-w", "--workers", default=4)
-def run(workers: int):
+@click.option("-m", "--method", type=click.Choice(['core', 'express']), default='core')
+def run(workers: int, method: str):
     """Run uvicorn processes running app.asgi:app"""
     import sys
+    m = {'core': 'asgi', 'express': 'esgi'}[method]
     procs = [
-        Runner(f"app{i}", [sys.executable, '-m', "uvicorn", "--uds", f"app{i}.sock", "app.asgi:app"],
+        Runner(f"app{i}", [sys.executable, '-m', "uvicorn", "--uds", f"app{i}.sock", f"app.{m}:app"],
             env=dict(ENDPOINT= f"app{i}.sock"))
         for i in range(1, workers + 1)
     ]
