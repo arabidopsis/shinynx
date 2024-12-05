@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import uvicorn
 import click
+
 from .utils import run_app
 
 

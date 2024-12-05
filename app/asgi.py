@@ -11,7 +11,6 @@ init_sticky(app)
 
 async def about(req):
     from starlette.responses import HTMLResponse
-    from .core import app_ui
 
     return HTMLResponse(str(app_ui))
 

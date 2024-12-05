@@ -4,6 +4,7 @@ from typing import Callable, Any, TYPE_CHECKING
 import sys
 import subprocess
 from dataclasses import dataclass
+
 from shiny import App
 from shiny.express import wrap_express_app
 import click
@@ -55,7 +56,7 @@ def add_route(
     from starlette.routing import Route
 
     route = Route(path, func, name=name)
-    # need to insert this!
+    # need to insert this! Can't append! so add_route can't work.
     app.starlette_app.router.routes.insert(0, route)
 
 

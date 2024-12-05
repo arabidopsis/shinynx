@@ -48,4 +48,4 @@ will envolve failures since cookie values have changed.
 
 Currently we set our cookie *value* to the uvicorn endpoint value (e.g. `app1.sock` or `app2.sock` etc.).
 **But** there is no guarantee that nginx will map a cookie value of `app1.sock` to the 
-app1.sock process (it's a hash after all!).
+`app1.sock` process (it's a hash after all!).

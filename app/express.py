@@ -6,19 +6,19 @@ from .shared import JS
 
 ui.markdown(
     f"""
-    ## Sticky load balancing test (Express)
+## Sticky load balancing test (Express)
 
-    The purpose of this app is to determine if HTTP requests made by the client are
-    correctly routed back to the same Python process where the session resides. It
-    is only useful for testing deployments that load balance traffic across more
-    than one Python process.
+The purpose of this app is to determine if HTTP requests made by the client are
+correctly routed back to the same Python process where the session resides. It
+is only useful for testing deployments that load balance traffic across more
+than one Python process.
 
-    If this test fails, it means that sticky load balancing is not working, and
-    certain Shiny functionality (like file upload/download or server-side selectize)
-    are likely to randomly fail.
+If this test fails, it means that sticky load balancing is not working, and
+certain Shiny functionality (like file upload/download or server-side selectize)
+are likely to randomly fail.
 
-    We are targetting the shiny instance with "sticky" cookie value: <code>{INSTANCE_COOKIE}</code>
-    """
+We are targetting the shiny instance with "sticky" cookie value: <code>{INSTANCE_COOKIE}</code>
+"""
 )
 
 
