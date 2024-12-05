@@ -1,6 +1,12 @@
-from shiny import ui, Inputs, Outputs, Session, render
+from __future__ import annotations
+from typing import TYPE_CHECKING
+from shiny import ui, render
 from starlette.responses import PlainTextResponse
 from .sticky import INSTANCE_COOKIE
+from .shared import JS
+
+if TYPE_CHECKING:
+    from shiny import Inputs, Outputs, Session
 
 # https://github.com/posit-dev/py-shiny/blob/7ba8f90a44ee25f41aa8c258eceeba6807e0017a/examples/load_balance/app.py
 
@@ -49,41 +55,8 @@ def server(input: Inputs, output: Outputs, session: Session):
         # Send JS code to the client to repeatedly hit the dynamic route.
         # It will succeed if and only if we reach the correct Python
         # process.
-        return ui.tags.script(
-            f"""
-            const url = "{url}";
-            const count_el = document.getElementById("count");
-            const status_el = document.getElementById("status");
-            const source_el = document.getElementById("source");
 
-            source_el.textContent = document.cookie;
-            let count = 0;
-            async function check_url() {{
-                count_el.innerHTML = ++count;
-                try {{
-                    const resp = await fetch(url);
-                    if (!resp.ok) {{
-                        status_el.innerHTML = "Failure!";
-                        status_el.style.color = 'red';
-                        return;
-                    }} else {{
-                        status_el.innerHTML = "In progress";
-                    }}
-                }} catch(e) {{
-                    status_el.innerHTML = "Failure!";
-                    status_el.style.color = 'red';
-                    return;
-                }}
-
-                if (count === 100) {{
-                    status_el.innerHTML = "Test complete";
-                    status_el.style.color = 'green';
-
-                    return;
-                }}
-
-                setTimeout(check_url, 10);
-            }}
-            check_url();
-            """
-        )
+        return [
+            ui.tags.script(f"window.URL = '{url}';"),
+            ui.tags.script(JS),
+        ]
