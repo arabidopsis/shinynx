@@ -5,7 +5,7 @@ import click
 
 
 @click.command()
-@click.option('-s', '--sleep', default=0.0, help='sleep before firing up new tab')
+@click.option("-s", "--sleep", default=0.0, help="sleep before firing up new tab")
 @click.option("-n", "--nbrowser", default=4)
 def run(nbrowser: int, sleep: float):
     """Fire up browsers"""
@@ -16,4 +16,6 @@ def run(nbrowser: int, sleep: float):
         if sleep:
             time.sleep(sleep)
 
-run()
+
+if __name__ == "__main__":
+    run()

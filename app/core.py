@@ -43,9 +43,7 @@ def server(input: Inputs, output: Outputs, session: Session):
         # will care about.
         url = session.dynamic_route(
             "test",
-            lambda req: PlainTextResponse(
-                "OK", headers={"Cache-Control": "no-cache"}
-            ),
+            lambda req: PlainTextResponse("OK", headers={"Cache-Control": "no-cache"}),
         )
 
         # Send JS code to the client to repeatedly hit the dynamic route.
@@ -89,4 +87,3 @@ def server(input: Inputs, output: Outputs, session: Session):
             check_url();
             """
         )
-

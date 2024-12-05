@@ -3,8 +3,6 @@ from starlette.responses import PlainTextResponse
 from .sticky import INSTANCE_COOKIE
 
 
-
-
 ui.markdown(
         f"""
         ## Sticky load balancing test (Express)
@@ -23,9 +21,9 @@ ui.markdown(
     )
 
 
-with ui.tags.div({"class": "card"}):
+with ui.tags.div(class_="card"):
 
-        with ui.tags.div({"class": "card-body font-monospace"}):
+        with ui.tags.div(class_="card-body font-monospace"):
 
             ui.tags.div("Attempts: ", ui.tags.span("0", id="count"))
             ui.tags.div("Status: ", ui.tags.span(id="status"))
