@@ -4,24 +4,24 @@ const source_el = document.getElementById("source")
 source_el.textContent = document.cookie
 let count = 0
 async function check_url() {
-    count_el.innerHTML = ++count
+    count_el.textContent = `${++count}`
     try {
         const resp = await fetch(URL)
         if (!resp.ok) {
-            status_el.innerHTML = "Failure!"
+            status_el.textContent = "Failure!"
             status_el.style.color = "red"
             return
         } else {
-            status_el.innerHTML = "In progress"
+            status_el.textContent = "In progress"
         }
     } catch (e) {
-        status_el.innerHTML = "Failure!"
+        status_el.textContent = "Failure!"
         status_el.style.color = "red"
         return
     }
 
     if (count === 100) {
-        status_el.innerHTML = "Test complete"
+        status_el.textContent = "Test complete"
         status_el.style.color = "green"
         return
     }
