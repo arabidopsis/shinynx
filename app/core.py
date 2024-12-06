@@ -34,7 +34,7 @@ app_ui = ui.page_fluid(
             ui.tags.div("Attempts: ", ui.tags.span("0", id="count")),
             ui.tags.div("Status: ", ui.tags.span(id="status")),
             ui.tags.div("Backend: ", ui.tags.span(id="source")),
-            ui.output_ui("out"), # see def out() in server
+            ui.output_ui("out"),  # see def out() in server
         ),
     ),
 )
