@@ -1,5 +1,6 @@
 # no-value-for-parameter  for click fuctions
 #  redefined-builtin, unused-argument for shiny api
+# pointless-string-statement for shiny.express
 [MESSAGES CONTROL]
 disable=missing-docstring,
         missing-class-docstring,
@@ -10,7 +11,8 @@ disable=missing-docstring,
         use-dict-literal,
         no-value-for-parameter,
         redefined-builtin,
-        unused-argument
+        unused-argument,
+        pointless-string-statement
 
 [FORMAT]
 max-line-length=115
