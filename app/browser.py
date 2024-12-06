@@ -5,8 +5,8 @@ import click
 
 
 @click.command()
-@click.option("-s", "--sleep", default=0.0, help="sleep before firing up new tab")
-@click.option("-n", "--nbrowser", default=4)
+@click.option("-s", "--sleep", default=0.0, help="sleep between firing up new tab")
+@click.option("-n", "--nbrowser", default=4, help='number of browsers to invoke', show_default=True)
 def run(nbrowser: int, sleep: float):
     """Fire up browsers"""
 

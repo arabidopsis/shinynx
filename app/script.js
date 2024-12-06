@@ -23,7 +23,6 @@ async function check_url() {
     if (count === 100) {
         status_el.innerHTML = "Test complete"
         status_el.style.color = "green"
-
         return
     }
 
