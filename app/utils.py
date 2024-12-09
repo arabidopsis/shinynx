@@ -61,7 +61,12 @@ def add_route(
 
 
 def run_app(
-    app: str, *, workers: int = 3, working_dir: str = ".", log_level: str = "info"
+    app: str,
+    *,
+    workers: int = 3,
+    working_dir: str = ".",
+    log_level: str = "info",
+    uvicornargs: tuple[str, ...] = (),
 ) -> None:
     procs = []
     # Don't allow shiny to use uvloop! (see _main.py)
@@ -79,6 +84,7 @@ def run_app(
                 f"--log-level={log_level}",
                 "--uds",
                 socket,
+                *uvicornargs,
                 app,
             ],
             env=dict(ENDPOINT=socket),
