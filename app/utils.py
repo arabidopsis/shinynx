@@ -26,12 +26,9 @@ def appify(express_py_file: Path) -> App:
 
 @dataclass
 class Runner:
-    name: str
     cmd: list[str]
     directory: str = "."
     env: dict[str, str] | None = None
-    showcmd: bool = False
-    shell: bool = False
 
     def getenv(self) -> dict[str, str] | None:
         if not self.env:
@@ -39,14 +36,12 @@ class Runner:
         return self.env  # return {**os.environ, **self.env}
 
     def start(self) -> subprocess.Popen[bytes]:
-        if self.showcmd:
-            click.secho(" ".join(str(s) for s in self.cmd), fg="blue")
 
         return subprocess.Popen(
             self.cmd,
             cwd=self.directory,
             env=self.getenv(),
-            shell=self.shell,
+            shell=False,
         )
 
 
@@ -74,7 +69,6 @@ def run_app(
     for iw in range(1, workers + 1):
         socket = f"app{iw}.sock"
         runner = Runner(
-            socket,
             [
                 sys.executable,
                 "-m",
