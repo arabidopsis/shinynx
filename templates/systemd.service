@@ -16,6 +16,7 @@ WorkingDirectory={{application_dir}}
 Environment="PATH={{venv}}/bin:/usr/bin:/bin"
 ExecStart={{venv}}/bin/python -m {{appname}}.web  --workers={{workers}} --log-level=warning
 KillSignal=SIGINT
+KillMode=control-group
 PrivateTmp=true
 Type=simple
 Restart=always

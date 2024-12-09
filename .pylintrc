@@ -12,7 +12,8 @@ disable=missing-docstring,
         no-value-for-parameter,
         redefined-builtin,
         unused-argument,
-        pointless-string-statement
+        pointless-string-statement,
+        pointless-statement
 
 [FORMAT]
 max-line-length=115
