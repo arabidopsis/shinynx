@@ -5,13 +5,12 @@ import sys
 import subprocess
 from dataclasses import dataclass
 
-from shiny import App
 from shiny.express import wrap_express_app
-import click
 
 from .sticky import init_sticky
 
 if TYPE_CHECKING:
+    from shiny import App
     from starlette.requests import Request
 
 
@@ -22,6 +21,17 @@ def appify(express_py_file: Path) -> App:
     # if debug is not None:
     #     app._debug = debug
     return app
+
+
+def add_route(
+    app: App, path: str, func: Callable[[Request], Any], name: str | None = None
+) -> None:
+    """See also https://shiny.posit.co/py/docs/routing.html."""
+    from starlette.routing import Route
+
+    route = Route(path, func, name=name)
+    # need to insert this! Can't append! so add_route can't work.
+    app.starlette_app.router.routes.insert(0, route)
 
 
 @dataclass
@@ -43,16 +53,6 @@ class Runner:
             env=self.getenv(),
             shell=False,
         )
-
-
-def add_route(
-    app: App, path: str, func: Callable[[Request], Any], name: str | None = None
-) -> None:
-    from starlette.routing import Route
-
-    route = Route(path, func, name=name)
-    # need to insert this! Can't append! so add_route can't work.
-    app.starlette_app.router.routes.insert(0, route)
 
 
 def run_app(
