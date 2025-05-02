@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import importlib.util
+import re
 import subprocess
 import sys
 from dataclasses import dataclass
@@ -67,10 +69,10 @@ def run_app(
     workers: int = 3,
     working_dir: str = ".",
     log_level: str = "info",
+    express: bool = False,
     uvicornargs: tuple[str, ...] = (),
 ) -> None:
-    if ":" not in app:
-        app += ":app"
+
     procs = []
     # Don't allow shiny to use uvloop! (see _main.py)
     # https://github.com/posit-dev/py-shiny/issues/1373
@@ -87,7 +89,7 @@ def run_app(
                 "--uds",
                 socket,
                 *uvicornargs,
-                app,
+                app_to_uvicorn_app(app, express=express),
             ],
             env=dict(ENDPOINT=socket),
             directory=working_dir,
@@ -103,3 +105,58 @@ def run_app(
     except KeyboardInterrupt:
         for t in todo:
             t.wait(0.5)
+
+
+def app_to_uvicorn_app(app: str, express: bool = False) -> str:
+    if express:
+        ret = f"shinyma.express:{escape_to_var_name(app)}"
+    else:
+        if ":" not in app:
+            app += ":app"
+        ret = f"shinyma.core:{escape_to_var_name(app)}"
+    return ret
+
+
+def try_module(name: str) -> str:
+
+    module = importlib.util.find_spec(name, None)
+    if module is None or module.origin is None:
+        return name
+    return module.origin
+
+
+def escape_to_var_name(x: str) -> str:
+    """
+    Given a string, escape it to a valid Python variable name which contains
+    [a-zA-Z0-9_]. All other characters will be escaped to _<hex>_. Also, if the first
+    character is a digit, it will be escaped to _<hex>_, because Python variable names
+    can't begin with a digit.
+    """
+    encoded = ""
+    is_first = True
+
+    for char in x:
+        if is_first and re.match("[0-9]", char):
+            encoded += f"_{ord(char):x}_"
+        elif re.match("[a-zA-Z0-9]", char):
+            encoded += char
+        else:
+            encoded += f"_{ord(char):x}_"
+
+        if is_first:
+            is_first = False
+
+    return encoded
+
+
+def unescape_from_var_name(x: str) -> str:
+    """
+    Given a string that was escaped to a Python variable name, unescape it -- that is,
+    convert it back to a regular string.
+    """
+
+    def replace_func(match: re.Match[str]) -> str:
+        return chr(int(match.group(1), 16))
+
+    decoded = re.sub("_([a-zA-Z0-9]+)_", replace_func, x)
+    return decoded

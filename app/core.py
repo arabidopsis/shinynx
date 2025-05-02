@@ -1,9 +1,14 @@
 from __future__ import annotations
+
 from typing import TYPE_CHECKING
-from shiny import ui, render
+
+from shiny import App
+from shiny import render
+from shiny import ui
 from starlette.responses import PlainTextResponse
-from shinyma.sticky import INSTANCE_COOKIE
+
 from .shared import JS
+from shinyma.sticky import INSTANCE_COOKIE
 
 if TYPE_CHECKING:
     from shiny import Inputs, Outputs, Session
@@ -25,7 +30,7 @@ app_ui = ui.page_fluid(
         are likely to randomly fail.
 
         We are targetting the shiny instance with "sticky" cookie value: <code>{INSTANCE_COOKIE}</code>
-        """
+        """,
     ),
     ui.tags.div(
         {"class": "card"},
@@ -60,3 +65,6 @@ def server(input: Inputs, output: Outputs, session: Session):
             ui.tags.script(f"window.URL = '{url}';"),
             ui.tags.script(JS),
         ]
+
+
+app = App(app_ui, server)
