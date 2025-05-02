@@ -118,11 +118,13 @@ def app_to_uvicorn_app(app: str, express: bool = False) -> str:
 
 
 def try_module(name: str) -> str:
-
-    module = importlib.util.find_spec(name, None)
-    if module is None or module.origin is None:
+    try:
+        module = importlib.util.find_spec(name, None)
+        if module is None or module.origin is None:
+            return name
+        return module.origin
+    except ModuleNotFoundError:
         return name
-    return module.origin
 
 
 def escape_to_var_name(x: str) -> str:
