@@ -109,11 +109,11 @@ def run_app(
 
 def app_to_uvicorn_app(app: str, express: bool = False) -> str:
     if express:
-        ret = f"shinyma.express:{escape_to_var_name(app)}"
+        ret = f"shinynx.express:{escape_to_var_name(app)}"
     else:
         if ":" not in app:
             app += ":app"
-        ret = f"shinyma.core:{escape_to_var_name(app)}"
+        ret = f"shinynx.core:{escape_to_var_name(app)}"
     return ret
 
 

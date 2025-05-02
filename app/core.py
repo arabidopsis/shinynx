@@ -8,7 +8,7 @@ from shiny import ui
 from starlette.responses import PlainTextResponse
 
 from .shared import JS
-from shinyma.sticky import INSTANCE_COOKIE
+from shinynx.sticky import INSTANCE_COOKIE
 
 if TYPE_CHECKING:
     from shiny import Inputs, Outputs, Session

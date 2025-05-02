@@ -21,20 +21,20 @@ Now run multiple background shiny instances:
 
 ```bash
 # starts 4 uvicorn processes holding one app.core:app shiny instance each
-python -m shinyma.web --workers=4 app.core
+python -m shinynx.web --workers=4 app.core
 ```
 
 You will see `app{n}.sock` files appear in this directory. These are the endpoints for each
 of 4 shiny instances.
 
 Shiny requires a "stickyness" i.e. it must always communicate with the *same* background
-shiny instance. So the file `shinyma/sticky.py` is the crucial enhancment required.
+shiny instance. So the file `shinynx/sticky.py` is the crucial enhancment required.
 
 You can fire up multiple browser tabs to hit this website concurrently with:
 
 ```bash
 # fire up 10 browser tabs
-python -m shinyma.browser -n10
+python -m shinynx.browser -n10
 ```
 
 The nginx load balancer should ensure that the processes are "sticky" using a

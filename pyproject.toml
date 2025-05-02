@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "shinyma"
+name = "shinynx"
 version = "0.1.1"
 description = "configure nginx to handle stickyness for shiny apps"
 authors = ["Ian Castleden <arabidopsis@github.com>"]

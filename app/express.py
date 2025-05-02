@@ -1,7 +1,12 @@
-from shiny.express import ui, render, session
+from __future__ import annotations
+
+from shiny.express import render
+from shiny.express import session
+from shiny.express import ui
 from starlette.responses import PlainTextResponse
-from shinyma.sticky import INSTANCE_COOKIE
+
 from .shared import JS
+from shinynx.sticky import INSTANCE_COOKIE
 
 # from shiny.express import app_opts
 # app_opts(static_assets={"/static": Path(__file__).parent / "www"})
@@ -31,7 +36,7 @@ certain Shiny functionality (like file upload/download or server-side selectize)
 are likely to randomly fail.
 
 We are targetting the shiny instance with "sticky" cookie value: <code>{INSTANCE_COOKIE}</code>
-"""
+""",
 )
 
 
