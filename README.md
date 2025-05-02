@@ -9,14 +9,15 @@ at *all* unless websocket traffic has been enabled.
 
 ## An example
 
-The shiny `testapp` is based on the [load balancer example](https://github.com/posit-dev/py-shiny/blob/7ba8f90a44ee25f41aa8c258eceeba6807e0017a/examples/load_balance/app.py) from the py-shiny github.
+The shiny `testapp` is based on the [load balancer example](https://github.com/posit-dev/py-shiny/blob/7ba8f90a44ee25f41aa8c258eceeba6807e0017a/examples/load_balance/app.py) from the py-shiny github and can
+test the correctness of the setup.
 
 Run a foreground nginx process on port 8080 with
 
 ```bash
 nginx -c $(realpath .)/templates/sticky.conf
 ```
-It assumes there are 4 unix socket endpoints `app{n}.sock` in this directory.
+It assumes there are 4 unix domain socket endpoints `app{n}.sock` in this directory.
 
 Now run multiple background shiny instances:
 
@@ -31,7 +32,7 @@ python -m shinynx.run --workers=4 --express testapp/express.py
 
 This serves as a substitute for `shiny run testapp.core`
 
-You will see `app{n}.sock` files appear in this directory. These are the endpoints for each
+You will now see `app{n}.sock` files appear in this directory. These are the endpoints for each
 of 4 shiny instances.
 
 
@@ -42,13 +43,13 @@ You can fire up multiple browser tabs to hit this website concurrently with:
 python -m shinynx.browser -n10
 ```
 
-Note, we use unix namesd sockets because they are safer (no direct internetl access) and it is also
+Note, we use unix domain sockets because they are safer (no direct internet access) and it is also
 easier to isolate the endpoints to the directory where the code resides.
 
 ## Rationale
 
 Shiny requires a "stickyness" i.e. it must always communicate with the *same* background
-shiny instance. So the file `shinynx/sticky.py` is the crucial enhancment required.
+shiny instance. So the cookie setup in `shinynx/sticky.py` is the crucial enhancment required.
 
 The nginx load balancer should ensure that the processes are "sticky" using a
 random "sticky" cookie. There are possibly better solutions if you have the "plus" version of nginx. But

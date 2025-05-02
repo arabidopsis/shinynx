@@ -3,7 +3,6 @@ from __future__ import annotations
 import os
 import random
 
-import click
 from shiny import App
 from starlette.middleware import Middleware
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -14,32 +13,14 @@ class StickyCookie(BaseHTTPMiddleware):
         self,
         app: App,
         value: str,
-        key: str = "sticky",
-        verbose: bool = False,
+        key: str = "sticky"
     ):
         super().__init__(app)
-        self.value = value
         self.key = key
-        self.verbose = verbose
+        self.value = value
 
     async def dispatch(self, request, call_next):
         sticky = request.cookies.get(self.key)
-        if sticky and self.verbose:
-
-            if sticky != self.value:
-                # there is no garrantee that the cookie value will
-                # be hash mapped to here by nginx.
-                click.secho(
-                    f"sticky missmatch: {sticky} != {self.value}",
-                    fg="red",
-                    bold=True,
-                )
-            else:
-                click.secho(
-                    f"sticky match: {sticky} == {self.value}",
-                    fg="green",
-                    bold=True,
-                )
         response = await call_next(request)
         if not sticky:
             response.set_cookie(key=self.key, value=self.value)
@@ -57,6 +38,6 @@ def init_sticky(app: App) -> App:
     # see hash $cookie_sticky consistent;
     # in sticky.conf
     app.starlette_app.user_middleware.append(
-        Middleware(StickyCookie, value=INSTANCE_COOKIE, key="sticky", verbose=False),
+        Middleware(StickyCookie, value=INSTANCE_COOKIE, key="sticky"),
     )
     return app

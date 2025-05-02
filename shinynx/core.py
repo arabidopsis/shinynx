@@ -10,5 +10,5 @@ def __getattr__(name: str) -> object:
     # e.g. shinynx.core:the.real.app
     name = unescape_from_var_name(name)
     app = import_from_string(name)
-    # we need to and some cookie magic to the app
+    # we need to add some cookie magic to the app
     return init_sticky(app)

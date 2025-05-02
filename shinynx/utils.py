@@ -22,10 +22,8 @@ if TYPE_CHECKING:
 def appify(express_py_file: Path) -> App:
     """Turn an Express app file into an App"""
     app = wrap_express_app(express_py_file)
-    init_sticky(app)
-    # if debug is not None:
-    #     app._debug = debug
-    return app
+    return init_sticky(app)
+
 
 
 def add_route(
@@ -134,21 +132,22 @@ def escape_to_var_name(x: str) -> str:
     character is a digit, it will be escaped to _<hex>_, because Python variable names
     can't begin with a digit.
     """
-    encoded = ""
-    is_first = True
+    if not x:
+        return x
+
+    encoded = []
+
+    if re.match("[0-9]", x[0]):
+        encoded.append(f"_{ord(x[0]):x}_")
+        x = x[1:]
 
     for char in x:
-        if is_first and re.match("[0-9]", char):
-            encoded += f"_{ord(char):x}_"
-        elif re.match("[a-zA-Z0-9]", char):
-            encoded += char
+        if re.match("[a-zA-Z0-9]", char):
+            encoded.append(char)
         else:
-            encoded += f"_{ord(char):x}_"
+            encoded.append(f"_{ord(char):x}_")
 
-        if is_first:
-            is_first = False
-
-    return encoded
+    return ''.join(encoded)
 
 
 def unescape_from_var_name(x: str) -> str:
@@ -160,5 +159,5 @@ def unescape_from_var_name(x: str) -> str:
     def replace_func(match: re.Match[str]) -> str:
         return chr(int(match.group(1), 16))
 
-    decoded = re.sub("_([a-zA-Z0-9]+)_", replace_func, x)
-    return decoded
+    return re.sub("_([a-zA-Z0-9]+)_", replace_func, x)
+
