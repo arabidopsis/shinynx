@@ -24,7 +24,7 @@ from .utils import run_app
     help="working directory",
     show_default=True,
 )
-@click.argument("app", default="app.asgi:app")
+@click.argument("app")
 @click.argument("uvicornargs", nargs=-1)
 def run(
     workers: int,

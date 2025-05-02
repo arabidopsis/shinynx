@@ -1,6 +1,6 @@
 # sticky nginx sessions and shiny
 
-Test shiny and also nginx "stickyness".
+Test shiny and nginx "stickyness".
 
 If you want to self-host your py-shiny app and your frontend is nginx this repo
 shows how to configure multiple shiny instances for the backend (to handle e.g. load).
@@ -13,22 +13,22 @@ The shiny app is based on the [load balancer example](https://github.com/posit-d
 Run a foreground nginx process on port 8080
 
 ```bash
-nginx -c $(realpath .)/sticky.conf
+nginx -c $(realpath .)/templates/sticky.conf
 ```
 It assumes there are 4 unix socket endpoints `app{n}.sock` in this directory.
 
 Now run multiple background shiny instances:
 
 ```bash
-# starts 4 uvicorn processes holding one app.asgi:app shiny instance each
-python -m shinyma.web --workers=4 app.asgi
+# starts 4 uvicorn processes holding one app.core:app shiny instance each
+python -m shinyma.web --workers=4 app.core
 ```
 
 You will see `app{n}.sock` files appear in this directory. These are the endpoints for each
 of 4 shiny instances.
 
 Shiny requires a "stickyness" i.e. it must always communicate with the *same* background
-shiny instance. So the file `sticky.py` is the crucial enhancment required.
+shiny instance. So the file `shinyma/sticky.py` is the crucial enhancment required.
 
 You can fire up multiple browser tabs to hit this website concurrently with:
 
