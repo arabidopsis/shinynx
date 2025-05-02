@@ -22,6 +22,10 @@ Now run multiple background shiny instances:
 ```bash
 # starts 4 uvicorn processes holding one app.core:app shiny instance each
 python -m shinynx.run --workers=4 app.core
+# OR
+python -m shinynx.run --workers=4 --express app.express
+# OR
+python -m shinynx.run --workers=4 --express app/express.py
 ```
 
 This serves as a substitute for `shiny run app.core`

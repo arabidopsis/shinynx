@@ -117,7 +117,7 @@ def app_to_uvicorn_app(app: str, express: bool = False) -> str:
     return ret
 
 
-def try_module(name: str) -> str:
+def try_package(name: str) -> str:
     try:
         module = importlib.util.find_spec(name, None)
         if module is None or module.origin is None:
