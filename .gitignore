@@ -162,3 +162,5 @@ cython_debug/
 #.idea/
 # running endpoints
 /app*.sock
+/dashboard-tips/
+/.vscode

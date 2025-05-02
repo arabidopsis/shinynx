@@ -1,6 +1,6 @@
 from shiny.express import ui, render, session
 from starlette.responses import PlainTextResponse
-from .sticky import INSTANCE_COOKIE
+from shinyma.sticky import INSTANCE_COOKIE
 from .shared import JS
 
 # from shiny.express import app_opts

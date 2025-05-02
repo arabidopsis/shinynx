@@ -21,7 +21,7 @@ Now run multiple background shiny instances:
 
 ```bash
 # starts 4 uvicorn processes holding one app.asgi:app shiny instance each
-python -m app.web
+python -m shinyma.web --workers=4
 ```
 
 You will see `app{n}.sock` files appear in this directory. These are the endpoints for each
@@ -34,7 +34,7 @@ You can fire up multiple browser tabs to hit this website concurrently with:
 
 ```bash
 # fire up 10 browser tabs
-python -m app.browser -n10
+python -m shinyma.browser -n10
 ```
 
 The nginx load balancer should ensure that the processes are "sticky" using a

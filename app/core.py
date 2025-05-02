@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from shiny import ui, render
 from starlette.responses import PlainTextResponse
-from .sticky import INSTANCE_COOKIE
+from shinyma.sticky import INSTANCE_COOKIE
 from .shared import JS
 
 if TYPE_CHECKING:

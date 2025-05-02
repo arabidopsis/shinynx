@@ -1,5 +1,5 @@
 from shiny import App
-from .sticky import init_sticky
+from shinyma.sticky import init_sticky
 from .core import app_ui, server
 # from .utils import add_route
 
