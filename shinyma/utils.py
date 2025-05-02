@@ -1,9 +1,12 @@
 from __future__ import annotations
-from pathlib import Path
-from typing import Callable, Any, TYPE_CHECKING
-import sys
+
 import subprocess
+import sys
 from dataclasses import dataclass
+from pathlib import Path
+from typing import Any
+from typing import Callable
+from typing import TYPE_CHECKING
 
 from shiny.express import wrap_express_app
 
@@ -24,7 +27,10 @@ def appify(express_py_file: Path) -> App:
 
 
 def add_route(
-    app: App, path: str, func: Callable[[Request], Any], name: str | None = None
+    app: App,
+    path: str,
+    func: Callable[[Request], Any],
+    name: str | None = None,
 ) -> None:
     """See also https://shiny.posit.co/py/docs/routing.html."""
     from starlette.routing import Route
@@ -63,6 +69,8 @@ def run_app(
     log_level: str = "info",
     uvicornargs: tuple[str, ...] = (),
 ) -> None:
+    if ":" not in app:
+        app += ":app"
     procs = []
     # Don't allow shiny to use uvloop! (see _main.py)
     # https://github.com/posit-dev/py-shiny/issues/1373

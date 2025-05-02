@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-import uvicorn
 import click
+import uvicorn
 
 from .utils import run_app
 
@@ -15,14 +15,16 @@ from .utils import run_app
     help="Log level.",
     show_default=True,
 )
-@click.option("-m", "--method", type=click.Choice(["core", "express"]), default="core")
+@click.argument("app", default="app.asgi:app")
 @click.argument("uvicornargs", nargs=-1)
-def run(workers: int, method: str, log_level: str, uvicornargs: tuple[str, ...]):
+def run(workers: int, log_level: str, app: str, uvicornargs: tuple[str, ...]):
     """Run uvicorn processes running app.{asgi|esgi}:app"""
-    # we can't use `shiny run` since it *only* uses ports and not unix domain sockets
-    m = {"core": "asgi", "express": "esgi"}[method]
+
     run_app(
-        f"app.{m}:app", workers=workers, log_level=log_level, uvicornargs=uvicornargs
+        app,
+        workers=workers,
+        log_level=log_level,
+        uvicornargs=uvicornargs,
     )
 
 

@@ -21,7 +21,7 @@ Now run multiple background shiny instances:
 
 ```bash
 # starts 4 uvicorn processes holding one app.asgi:app shiny instance each
-python -m shinyma.web --workers=4
+python -m shinyma.web --workers=4 app.asgi
 ```
 
 You will see `app{n}.sock` files appear in this directory. These are the endpoints for each
@@ -47,5 +47,5 @@ Since the cookie values are randomly generated, a restart of the backend without
 will envolve failures since cookie values have changed.
 
 Currently we set our cookie *value* to the uvicorn endpoint value (e.g. `app1.sock` or `app2.sock` etc.).
-**But** there is no guarantee that nginx will map a cookie value of `app1.sock` to the 
+**But** there is no guarantee that nginx will map a cookie value of `app1.sock` to the
 `app1.sock` process (it's a hash after all!).
