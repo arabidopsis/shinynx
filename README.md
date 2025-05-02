@@ -8,7 +8,7 @@ shows how to configure multiple shiny instances for the backend (to handle e.g. 
 Shiny uses websockets so of course if you are behind - say - a CloudFlare firewall then this might not work
 at *all* unless websocket traffic has been enabled.
 
-The shiny app is based on the [load balancer example](https://github.com/posit-dev/py-shiny/blob/7ba8f90a44ee25f41aa8c258eceeba6807e0017a/examples/load_balance/app.py) from the py-shiny github.
+The shiny ``testapp`` is based on the [load balancer example](https://github.com/posit-dev/py-shiny/blob/7ba8f90a44ee25f41aa8c258eceeba6807e0017a/examples/load_balance/app.py) from the py-shiny github.
 
 Run a foreground nginx process on port 8080
 
@@ -21,8 +21,10 @@ Now run multiple background shiny instances:
 
 ```bash
 # starts 4 uvicorn processes holding one app.core:app shiny instance each
-python -m shinynx.web --workers=4 app.core
+python -m shinynx.run --workers=4 app.core
 ```
+
+This serves as a substitute for `shiny run app.core`
 
 You will see `app{n}.sock` files appear in this directory. These are the endpoints for each
 of 4 shiny instances.

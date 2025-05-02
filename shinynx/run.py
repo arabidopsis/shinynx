@@ -5,10 +5,13 @@ import uvicorn
 
 from .utils import run_app
 
+EPILOG="""
+Arguments after APP are given straight to uvicorn server (see `uvicorn --help`).
+"""
 
-@click.command(context_settings=dict(ignore_unknown_options=True))
-@click.option("-w", "--workers", default=4)
-@click.option("-e", "--express", is_flag=True, help="is an shiny express app")
+@click.command(context_settings=dict(ignore_unknown_options=True), epilog=click.style(EPILOG, fg='magenta'))
+@click.option("-w", "--workers", default=4, help="number of shiny processes to run")
+@click.option("-e", "--express", is_flag=True, help="this is an shiny express app")
 @click.option(
     "--log-level",
     type=click.Choice(list(uvicorn.config.LOG_LEVELS.keys())),
@@ -21,7 +24,7 @@ from .utils import run_app
     "--working-dir",
     type=click.Path(exists=True, dir_okay=True, file_okay=False),
     default=".",
-    help="working directory",
+    help="working directory where uvicorn server will run",
     show_default=True,
 )
 @click.argument("app")
@@ -34,7 +37,7 @@ def run(
     express: bool,
     uvicornargs: tuple[str, ...],
 ):
-    """Run uvicorn processes running app.{asgi|esgi}:app"""
+    """Run uvicorn processes running a shiny app"""
 
     run_app(
         app,
