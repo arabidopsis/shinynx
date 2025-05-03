@@ -5,11 +5,15 @@ import uvicorn
 
 from .utils import run_app
 
-EPILOG="""
+EPILOG = """
 Arguments after APP are given straight to uvicorn server (see `uvicorn --help`).
 """
 
-@click.command(context_settings=dict(ignore_unknown_options=True), epilog=click.style(EPILOG, fg='magenta'))
+
+@click.command(
+    context_settings=dict(ignore_unknown_options=True),
+    epilog=click.style(EPILOG, fg="magenta"),
+)
 @click.option("-w", "--workers", default=4, help="number of shiny processes to run")
 @click.option("-e", "--express", is_flag=True, help="this is an shiny express app")
 @click.option(

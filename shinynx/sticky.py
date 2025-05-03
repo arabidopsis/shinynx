@@ -9,12 +9,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 
 
 class StickyCookie(BaseHTTPMiddleware):
-    def __init__(
-        self,
-        app: App,
-        value: str,
-        key: str = "sticky"
-    ):
+    def __init__(self, app: App, value: str, key: str = "sticky"):
         super().__init__(app)
         self.key = key
         self.value = value

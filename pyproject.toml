@@ -4,6 +4,17 @@ version = "0.1.1"
 description = "Backend an nginx server with multiple copies of a shiny app for load balancing"
 authors = ["Ian Castleden <arabidopsis@github.com>"]
 readme = "README.md"
+packages = [{ include = "shinynx" }]
+repository = "https://github.com/arabidopsis/shinynx.git"
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: System Administrators",
+    "Framework :: Shiny",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content :: CGI Tools/Libraries",
+]
 
 [tool.poetry.dependencies]
 python = ">=3.10"

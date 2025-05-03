@@ -4,6 +4,7 @@ import importlib.util
 import re
 import subprocess
 import sys
+import os, platform
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -23,7 +24,6 @@ def appify(express_py_file: Path) -> App:
     """Turn an Express app file into an App"""
     app = wrap_express_app(express_py_file)
     return init_sticky(app)
-
 
 
 def add_route(
@@ -70,6 +70,9 @@ def run_app(
     express: bool = False,
     uvicornargs: tuple[str, ...] = (),
 ) -> None:
+    if not express:
+        # a/b/c.py, '.' -> c:app, 'a/b'
+        app, working_dir = resolve_app(app, working_dir)
 
     procs = []
     # Don't allow shiny to use uvloop! (see _main.py)
@@ -129,6 +132,7 @@ def try_package(name: str) -> str:
 # we could just import these functions but they are internal
 # so might disappear|move
 
+
 def escape_to_var_name(x: str) -> str:
     """
     Given a string, escape it to a valid Python variable name which contains
@@ -151,7 +155,7 @@ def escape_to_var_name(x: str) -> str:
         else:
             encoded.append(f"_{ord(char):x}_")
 
-    return ''.join(encoded)
+    return "".join(encoded)
 
 
 def unescape_from_var_name(x: str) -> str:
@@ -165,3 +169,37 @@ def unescape_from_var_name(x: str) -> str:
 
     return re.sub("_([a-zA-Z0-9]+)_", replace_func, x)
 
+
+def is_file(app: str) -> bool:
+    return "/" in app or "\\" in app or app.endswith(".py")
+
+
+def resolve_app(app: str, app_dir: str | None) -> tuple[str, str | None]:
+    # The `app` parameter can be:
+    #
+    # - A module:attribute name
+    # - An absolute or relative path to a:
+    #   - .py file (look for app inside of it)
+    #   - directory (look for app:app inside of it)
+    # - A module name (look for :app) inside of it
+
+    if platform.system() == "Windows" and re.match("^[a-zA-Z]:[/\\\\]", app):
+        # On Windows, need special handling of ':' in some cases, like these:
+        #   shiny run c:/Users/username/Documents/myapp/app.py
+        #   shiny run c:\Users\username\Documents\myapp\app.py
+        module, attr = app, ""
+    else:
+        module, _, attr = app.partition(":")
+    if not module:
+        raise ImportError("The APP parameter cannot start with ':'.")
+    if not attr:
+        attr = "app"
+
+    if is_file(module):
+        # Before checking module path, resolve it relative to app_dir if provided
+        module_path = module if app_dir is None else os.path.join(app_dir, module)
+        dirname, filename = os.path.split(module_path)
+        module = filename[:-3] if filename.endswith(".py") else filename
+        app_dir = dirname
+
+    return f"{module}:{attr}", app_dir

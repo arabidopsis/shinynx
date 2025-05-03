@@ -22,7 +22,7 @@ It assumes there are 4 unix domain socket endpoints `app{n}.sock` in this direct
 Now run multiple background shiny instances:
 
 ```bash
-# starts 4 uvicorn processes holding one testapp shiny instance each
+# start 4 uvicorn processes holding one testapp shiny instance each
 python -m shinynx.run --workers=4 testapp.core
 # OR try the express version
 python -m shinynx.run --workers=4 --express testapp.express
