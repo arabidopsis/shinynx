@@ -7,7 +7,7 @@ from .utils import try_package
 from .utils import unescape_from_var_name
 
 
-# entry point call by uvicorn to find the async app (i.e out shinyapp)
+# entry point called by uvicorn to find the async app (i.e out shinyapp)
 def __getattr__(name: str) -> object:
     name = unescape_from_var_name(name)
     # maybe we are a module in a package

@@ -125,6 +125,10 @@ def try_package(name: str) -> str:
         return name
 
 
+# taken from shiny.express._utils.py
+# we could just import these function but they are internal
+# so might disappear|move
+
 def escape_to_var_name(x: str) -> str:
     """
     Given a string, escape it to a valid Python variable name which contains

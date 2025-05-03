@@ -37,7 +37,7 @@ def run(
     express: bool,
     uvicornargs: tuple[str, ...],
 ):
-    """Run uvicorn processes running a shiny app"""
+    """Invoke uvicorn processes running a shiny app"""
 
     run_app(
         app,
