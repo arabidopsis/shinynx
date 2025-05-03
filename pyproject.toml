@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "shinynx"
 version = "0.1.1"
-description = "configure nginx to handle stickyness for shiny apps"
+description = "Backend an nginx server with multiple copies of a shiny app for load balancing"
 authors = ["Ian Castleden <arabidopsis@github.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = ">=3.10"
 shiny = "^1.2.1"
 
 
