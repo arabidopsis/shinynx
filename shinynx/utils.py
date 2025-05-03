@@ -118,7 +118,7 @@ def app_to_uvicorn_app(app: str, express: bool = False) -> str:
 def try_package(name: str) -> str:
     try:
         module = importlib.util.find_spec(name, None)
-        if module is None or module.origin is None:
+        if module is None or module.origin is None or not module.has_location:
             return name
         return module.origin
     except ModuleNotFoundError:
@@ -126,7 +126,7 @@ def try_package(name: str) -> str:
 
 
 # taken from shiny.express._utils.py
-# we could just import these function but they are internal
+# we could just import these functions but they are internal
 # so might disappear|move
 
 def escape_to_var_name(x: str) -> str:
