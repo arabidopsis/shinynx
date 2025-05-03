@@ -40,7 +40,7 @@ You can fire up multiple browser tabs to hit this website concurrently with:
 
 ```bash
 # fire up 10 browser tabs
-python -m shinynx.browser -n10
+python -m testapp.browser -n10
 ```
 
 Note, we use unix domain sockets because they are safer (no direct internet access) and it is also
