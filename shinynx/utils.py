@@ -75,24 +75,28 @@ def run_app(
     if not express:
         # a/b/c.py, '.' -> c:app, './a/b'
         app, working_dir = resolve_app(app, working_dir)
+    app = app_to_uvicorn_app(app, express=express)
 
     procs = []
+    cmd = [
+        sys.executable,
+        "-m",
+        "uvicorn",
+        "--loop=asyncio",
+        "--lifespan=on",
+        f"--log-level={log_level}",
+        *uvicornargs,
+        "--uds",
+    ]
     # Don't allow shiny to use uvloop! (see _main.py)
     # https://github.com/posit-dev/py-shiny/issues/1373
     for iw in range(1, workers + 1):
         socket = socket_name.format(n=iw)
         runner = Runner(
             [
-                sys.executable,
-                "-m",
-                "uvicorn",
-                "--loop=asyncio",
-                "--lifespan=on",
-                f"--log-level={log_level}",
-                "--uds",
+                *cmd,
                 socket,
-                *uvicornargs,
-                app_to_uvicorn_app(app, express=express),
+                app,
             ],
             env=dict(ENDPOINT=socket),
             directory=working_dir,

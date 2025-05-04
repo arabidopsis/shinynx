@@ -3,6 +3,9 @@
 If you want to self-host your py-shiny app and your frontend is nginx this repo
 shows how to configure multiple shiny instances for the backend (to handle e.g. load).
 
+This package hooks the import of the shiny app to augment it with a cookie that nginx can use
+to target a unique backend.
+
 Shiny uses websockets so of course if you are behind - say - a CloudFlare firewall then this might not work
 at *all* unless websocket traffic has been enabled.
 

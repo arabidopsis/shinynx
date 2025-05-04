@@ -6,7 +6,7 @@ let count = 0
 async function check_url() {
     count_el.textContent = `${++count}`
     try {
-        const resp = await fetch(URL)
+        const resp = await fetch(window.URL)
         if (!resp.ok) {
             status_el.textContent = "Failure!"
             status_el.style.color = "red"

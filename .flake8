@@ -1,8 +1,6 @@
 # can't seem to put this in pyproject.toml
 [flake8]
-# E127,E128 under/overindent
-# E501 line too long
-# E231 missing whitespace after ':'
+
 select = B,C,E,F,W,T4,B9
 
 ignore =
