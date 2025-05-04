@@ -8,20 +8,6 @@ from starlette.responses import PlainTextResponse
 from .shared import JS
 from shinynx.sticky import INSTANCE_COOKIE
 
-# from shiny.express import app_opts
-# app_opts(static_assets={"/static": Path(__file__).parent / "www"})
-
-# ui.head_content(
-#     ui.tags.meta(name="robots", content="xxx"),
-#     ui.include_css(Path(__file__).parent / "some.css"),
-#     ui.tags.link(rel="stylesheet", href="/static/some.css"),
-#     ui.tags.style(
-#         """
-#             .navbar { background-color: --bs-primary; }
-#         """
-#     ),
-# )
-
 ui.markdown(
     f"""
 ## Sticky load balancing test (Express)

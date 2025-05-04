@@ -1,10 +1,11 @@
 from __future__ import annotations
 
 import importlib.util
+import os
+import platform
 import re
 import subprocess
 import sys
-import os, platform
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -68,17 +69,18 @@ def run_app(
     working_dir: str = ".",
     log_level: str = "info",
     express: bool = False,
+    socket_name: str = "app{n}.sock",
     uvicornargs: tuple[str, ...] = (),
 ) -> None:
     if not express:
-        # a/b/c.py, '.' -> c:app, 'a/b'
+        # a/b/c.py, '.' -> c:app, './a/b'
         app, working_dir = resolve_app(app, working_dir)
 
     procs = []
     # Don't allow shiny to use uvloop! (see _main.py)
     # https://github.com/posit-dev/py-shiny/issues/1373
     for iw in range(1, workers + 1):
-        socket = f"app{iw}.sock"
+        socket = socket_name.format(n=iw)
         runner = Runner(
             [
                 sys.executable,
@@ -174,7 +176,7 @@ def is_file(app: str) -> bool:
     return "/" in app or "\\" in app or app.endswith(".py")
 
 
-def resolve_app(app: str, app_dir: str | None) -> tuple[str, str | None]:
+def resolve_app(app: str, app_dir: str) -> tuple[str, str]:
     # The `app` parameter can be:
     #
     # - A module:attribute name
@@ -196,8 +198,7 @@ def resolve_app(app: str, app_dir: str | None) -> tuple[str, str | None]:
         attr = "app"
 
     if is_file(module):
-        # Before checking module path, resolve it relative to app_dir if provided
-        module_path = module if app_dir is None else os.path.join(app_dir, module)
+        module_path = os.path.join(app_dir, module)
         dirname, filename = os.path.split(module_path)
         module = filename[:-3] if filename.endswith(".py") else filename
         app_dir = dirname

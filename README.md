@@ -26,20 +26,18 @@ Now run multiple background shiny instances:
 python -m shinynx.run --workers=4 testapp.core
 # OR try the express version
 python -m shinynx.run --workers=4 --express testapp.express
-# OR
-python -m shinynx.run --workers=4 --express testapp/express.py
 ```
 
 This serves as a substitute for `shiny run testapp.core`
 
 You will now see `app{n}.sock` files appear in this directory. These are the endpoints for each
-of 4 shiny instances.
+of 4 shiny instances. (See the `--uds` option for `uvicorn`)
 
 
 You can fire up multiple browser tabs to hit this website concurrently with:
 
 ```bash
-# fire up 10 browser tabs
+# fire up 10 browser tabs looking at http://127.0.0.1:8080
 python -m testapp.browser -n10
 ```
 
@@ -49,7 +47,8 @@ easier to isolate the endpoints to the directory where the code resides.
 ## Rationale
 
 Shiny requires a "stickyness" i.e. it must always communicate with the *same* background
-shiny instance. So the cookie setup in `shinynx/sticky.py` is the crucial enhancment required.
+shiny instance. So the cookie setup in `shinynx/sticky.py` is the crucial enhancment required along with
+the `hash $cookie_sticky consistent;` nginx configuration option.
 
 The nginx load balancer should ensure that the processes are "sticky" using a
 random "sticky" cookie. There are possibly better solutions if you have the "plus" version of nginx. But
