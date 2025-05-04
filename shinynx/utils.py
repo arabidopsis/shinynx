@@ -172,11 +172,11 @@ def unescape_from_var_name(x: str) -> str:
     return re.sub("_([a-zA-Z0-9]+)_", replace_func, x)
 
 
-def is_file(app: str) -> bool:
-    return "/" in app or "\\" in app or app.endswith(".py")
-
-
 def resolve_app(app: str, app_dir: str) -> tuple[str, str]:
+
+    def is_file(m: str) -> bool:
+        return "/" in m or "\\" in m or m.endswith(".py")
+
     # The `app` parameter can be:
     #
     # - A module:attribute name

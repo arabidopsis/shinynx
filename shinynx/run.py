@@ -27,7 +27,7 @@ Arguments after APP are given straight to uvicorn server (see `uvicorn --help`).
     "--socket-name",
     "socket_name",
     default="app{n}.sock",
-    help="name of unix domain socket to use as endpoint (must have a {n} format paramenter)",
+    help="name of unix domain socket to use as endpoint (must have a {n} format paramenter).",
     show_default=True,
 )
 @click.option(
@@ -35,7 +35,7 @@ Arguments after APP are given straight to uvicorn server (see `uvicorn --help`).
     "--working-dir",
     type=click.Path(exists=True, dir_okay=True, file_okay=False),
     default=".",
-    help="working directory where uvicorn server will run",
+    help="working directory where uvicorn server will run.",
     show_default=True,
 )
 @click.argument("app")

@@ -5,6 +5,7 @@ from uvicorn.importer import import_from_string
 from .utils import init_sticky
 from .utils import unescape_from_var_name
 
+
 # entry point called by uvicorn to find the async app (i.e our shinyapp)
 def __getattr__(name: str) -> object:
     # e.g. shinynx.core:the.real.app
