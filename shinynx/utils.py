@@ -126,7 +126,8 @@ def try_package(name: str) -> str:
         if module is None or module.origin is None or not module.has_location:
             return name
         return module.origin
-    except ModuleNotFoundError:
+    except (ModuleNotFoundError, ImportError):
+        # find_spec throws ImportError when the module starts with "."
         return name
 
 
