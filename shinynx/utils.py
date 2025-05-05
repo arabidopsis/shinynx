@@ -90,8 +90,8 @@ def run_app(
     ]
     # Don't allow shiny to use uvloop! (see _main.py)
     # https://github.com/posit-dev/py-shiny/issues/1373
-    for iw in range(1, workers + 1):
-        socket = socket_name.format(n=iw)
+    for n in range(1, workers + 1):
+        socket = socket_name.format(n=n)
         runner = Runner(
             [
                 *cmd,
@@ -103,15 +103,15 @@ def run_app(
         )
         procs.append(runner)
 
-    todo = [p.start() for p in procs]
+    shinpy_apps = [p.start() for p in procs]
 
     try:
-        for t in todo:
-            t.wait()
+        for proc in shinpy_apps:
+            proc.wait()
 
     except KeyboardInterrupt:
-        for t in todo:
-            t.wait(0.5)
+        for proc in shinpy_apps:
+            proc.wait(0.5)
 
 
 def app_to_uvicorn_app(app: str, express: bool = False) -> str:

@@ -11,7 +11,6 @@ classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
     "Intended Audience :: System Administrators",
-    "Framework :: Shiny",
     "Programming Language :: Python :: 3 :: Only",
     "Topic :: Internet :: WWW/HTTP :: Dynamic Content :: CGI Tools/Libraries",
 ]
