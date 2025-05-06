@@ -15,10 +15,14 @@ import click
     help="number of browsers to invoke",
     show_default=True,
 )
-def run(nbrowser: int, sleep: float):
+@click.option(
+    "--url",
+    default="http://127.0.0.1:8080",
+    help="url to target",
+)
+def run(nbrowser: int, sleep: float, url: str):
     """Fire up browsers"""
 
-    url = "http://127.0.0.1:8080"
     for _ in range(nbrowser):
         webbrowser.open_new_tab(url)
         if sleep:
