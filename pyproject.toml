@@ -17,7 +17,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = ">=3.10"
-shiny = "^1.2.1"
+shiny = "^1.4.0"
 
 
 [build-system]
