@@ -77,7 +77,8 @@ def run_app(
         app, working_dir = resolve_app(app, working_dir)
     app = app_to_uvicorn_app(app, express=express)
 
-    procs = []
+    # Don't allow shiny to use uvloop! (see _main.py)
+    # https://github.com/posit-dev/py-shiny/issues/1373
     cmd = [
         sys.executable,
         "-m",
@@ -88,8 +89,7 @@ def run_app(
         *uvicornargs,
         "--uds",
     ]
-    # Don't allow shiny to use uvloop! (see _main.py)
-    # https://github.com/posit-dev/py-shiny/issues/1373
+    procs = []
     for n in range(1, workers + 1):
         socket = socket_name.format(n=n)
         runner = Runner(
