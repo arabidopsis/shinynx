@@ -152,15 +152,18 @@ def escape_to_var_name(x: str) -> str:
 
     encoded = []
 
+    def encode(s: str) -> str:
+        return f"_{ord(s):x}_"
+
     if re.match("[0-9]", x[0]):
-        encoded.append(f"_{ord(x[0]):x}_")
+        encoded.append(encode(x[0]))
         x = x[1:]
 
     for char in x:
         if re.match("[a-zA-Z0-9]", char):
             encoded.append(char)
         else:
-            encoded.append(f"_{ord(char):x}_")
+            encoded.append(encode(char))
 
     return "".join(encoded)
 
@@ -204,8 +207,7 @@ def resolve_app(app: str, app_dir: str) -> tuple[str, str]:
 
     if is_file(module):
         module_path = os.path.join(app_dir, module)
-        dirname, filename = os.path.split(module_path)
+        app_dir, filename = os.path.split(module_path)
         module = filename[:-3] if filename.endswith(".py") else filename
-        app_dir = dirname
 
     return f"{module}:{attr}", app_dir
