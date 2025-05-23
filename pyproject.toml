@@ -1,12 +1,10 @@
-[tool.poetry]
+[project]
 name = "shinynx"
 version = "0.1.1"
 description = "Backend an nginx server with multiple copies of a shiny app for load balancing"
-authors = ["Ian Castleden <arabidopsis@github.com>"]
+authors = [{ name = "Ian Castleden", email = "arabidopsis@github.com" }]
+requires-python = ">=3.10"
 readme = "README.md"
-packages = [{ include = "shinynx" }]
-repository = "https://github.com/arabidopsis/shinynx.git"
-
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
@@ -14,12 +12,17 @@ classifiers = [
     "Programming Language :: Python :: 3 :: Only",
     "Topic :: Internet :: WWW/HTTP :: Dynamic Content :: CGI Tools/Libraries",
 ]
+dependencies = ["shiny>=1.4.0,<2"]
 
-[tool.poetry.dependencies]
-python = ">=3.10"
-shiny = "^1.4.0"
+[project.urls]
+Repository = "https://github.com/arabidopsis/shinynx.git"
 
+[tool.hatch.build.targets.sdist]
+include = ["shinynx"]
+
+[tool.hatch.build.targets.wheel]
+include = ["shinynx"]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
