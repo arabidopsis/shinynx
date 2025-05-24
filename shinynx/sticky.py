@@ -4,18 +4,19 @@ import os
 import random
 from typing import TYPE_CHECKING
 
-from shiny import App
 from starlette.middleware.base import BaseHTTPMiddleware
 
 
 if TYPE_CHECKING:
+    from shiny import App
+    from starlette.types import ASGIApp
     from starlette.requests import Request
     from starlette.responses import Response
     from starlette.middleware.base import RequestResponseEndpoint
 
 
 class StickyCookie(BaseHTTPMiddleware):
-    def __init__(self, app: App, value: str, key: str = "sticky") -> None:
+    def __init__(self, app: ASGIApp, *, value: str, key: str = "sticky") -> None:
         super().__init__(app)
         self.key = key
         self.value = value
