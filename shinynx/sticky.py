@@ -43,8 +43,5 @@ def init_sticky(app: App) -> App:
     """Ensure app sends out a "sticky" cookie so it can be identified by nginx"""
     # see hash $cookie_sticky consistent;
     # in templates/sticky.conf
-    # app.starlette_app.user_middleware.append(
-    #     Middleware(StickyCookie, value=INSTANCE_COOKIE, key="sticky"),
-    # )
     app.starlette_app.add_middleware(StickyCookie, value=INSTANCE_COOKIE, key="sticky")
     return app
