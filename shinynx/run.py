@@ -1,9 +1,7 @@
 from __future__ import annotations
 
 import click
-import uvicorn
 
-from .utils import run_app
 
 EPILOG = """
 Arguments after APP are given straight to uvicorn server (see `uvicorn --help`).
@@ -18,7 +16,7 @@ Arguments after APP are given straight to uvicorn server (see `uvicorn --help`).
 @click.option("-e", "--express", is_flag=True, help="this is an shiny express app")
 @click.option(
     "--log-level",
-    type=click.Choice(list(uvicorn.config.LOG_LEVELS.keys())),  # type: ignore
+    type=click.Choice(["critical", "error", "warning", "info", "debug", "trace"]),  # type: ignore
     default="info",
     help="Log level.",
     show_default=True,
@@ -48,6 +46,9 @@ def run(
     socket_name: str,
 ):
     """Invoke uvicorn processes running a shiny app"""
+
+    from .utils import run_app
+
     if socket_name == socket_name.format(n=147):
         raise click.BadParameter(
             f'"{socket_name}" does not contain an {{n}} format parameter.',

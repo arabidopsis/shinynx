@@ -166,3 +166,4 @@ cython_debug/
 /.vscode
 /extra
 /ollama
+/.ruff_cache

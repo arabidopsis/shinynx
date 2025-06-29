@@ -4,7 +4,6 @@ import importlib.util
 import os
 import platform
 import re
-import subprocess
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -12,17 +11,18 @@ from typing import Any
 from typing import Callable
 from typing import TYPE_CHECKING
 
-from shiny.express import wrap_express_app
-
 from .sticky import init_sticky
 
 if TYPE_CHECKING:
     from shiny import App
     from starlette.requests import Request
+    from subprocess import Popen
 
 
 def appify(express_py_file: Path) -> App:
     """Turn an Express app file into an App"""
+    from shiny.express import wrap_express_app
+
     app = wrap_express_app(express_py_file)
     return init_sticky(app)
 
@@ -52,7 +52,9 @@ class Runner:
             return None
         return self.env  # return {**os.environ, **self.env}
 
-    def start(self) -> subprocess.Popen[bytes]:
+    def start(self) -> Popen[bytes]:
+
+        import subprocess
 
         return subprocess.Popen(
             self.cmd,
