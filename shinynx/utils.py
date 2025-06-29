@@ -44,7 +44,7 @@ def add_route(
 @dataclass
 class Runner:
     cmd: list[str]
-    directory: str = "."
+    directory: str | None = None
     env: dict[str, str] | None = None
 
     def getenv(self) -> dict[str, str] | None:
@@ -66,7 +66,7 @@ def run_app(
     app: str,
     *,
     workers: int = 3,
-    working_dir: str = ".",
+    working_dir: str | None = None,
     log_level: str = "info",
     express: bool = False,
     socket_name: str = "app{n}.sock",
@@ -74,7 +74,7 @@ def run_app(
 ) -> None:
     if not express:
         # a/b/c.py, '.' -> c:app, './a/b'
-        app, working_dir = resolve_app(app, working_dir)
+        app, working_dir = resolve_app(app, working_dir or ".")
     app = app_to_uvicorn_app(app, express=express)
 
     # Don't allow shiny to use uvloop! (see _main.py)

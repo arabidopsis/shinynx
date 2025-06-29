@@ -18,7 +18,7 @@ Arguments after APP are given straight to uvicorn server (see `uvicorn --help`).
 @click.option("-e", "--express", is_flag=True, help="this is an shiny express app")
 @click.option(
     "--log-level",
-    type=click.Choice(list(uvicorn.config.LOG_LEVELS.keys())),
+    type=click.Choice(list(uvicorn.config.LOG_LEVELS.keys())),  # type: ignore
     default="info",
     help="Log level.",
     show_default=True,
@@ -34,9 +34,7 @@ Arguments after APP are given straight to uvicorn server (see `uvicorn --help`).
     "-d",
     "--working-dir",
     type=click.Path(exists=True, dir_okay=True, file_okay=False),
-    default=".",
     help="working directory where uvicorn server will run.",
-    show_default=True,
 )
 @click.argument("app")
 @click.argument("uvicornargs", nargs=-1)
@@ -44,7 +42,7 @@ def run(
     workers: int,
     log_level: str,
     app: str,
-    working_dir: str,
+    working_dir: str | None,
     express: bool,
     uvicornargs: tuple[str, ...],
     socket_name: str,
